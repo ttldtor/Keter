@@ -9,8 +9,8 @@ object WaitActionTest extends TestSuite {
   val universe = UniverseSnapshot(Map(), Some(playerId), EventQueue.empty)
   val action = WaitAction(50.0)
 
-  val tests = TestSuite {
-    'shouldWait {
+  val tests = Tests {
+    test("shouldWait") {
       val newState = action.perform(playerId, universe)
       assert(newState == universe)
     }

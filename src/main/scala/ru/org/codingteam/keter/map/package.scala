@@ -137,6 +137,8 @@ package object map {
     }
 
     def nextEvent: Option[(Double, ScheduledEvent, UniverseSnapshot)] = {
+      import Ordering.Double.IeeeOrdering
+
       val delays = (globalEvents.nextEventDelay map ((_, this))).toIndexedSeq ++
         actors.values.flatMap(a => a.nextEventDelay.map((_, a)))
       log.debug(s"Timestamp: ${globalEvents.timestamp}; First event count: ${delays.size}")
@@ -148,7 +150,7 @@ package object map {
             val (nextTimestamp, nextAction) = globalEvents.nextEvent.get
             val nextUniverse = copy(
               globalEvents = globalEvents.dropNextEvent().addTime(delay),
-              actors = actors.mapValues(_.addTime(delay)))
+              actors = actors.view.mapValues(_.addTime(delay)).toMap)
             log.debug(s"Event from universe, delay=$delay, next timestamp=$nextTimestamp")
             (nextTimestamp, nextAction, nextUniverse)
           case (delay, actor: ActorLike) =>
@@ -156,7 +158,7 @@ package object map {
             val nextAction = actor.eventQueue.nextEvent.get._2
             val nextUniverse = copy(
               globalEvents = globalEvents.addTime(delay),
-              actors = actors.mapValues(_.addTime(delay))).updatedActor(actor.id)(_.dropNextEvent())
+              actors = actors.view.mapValues(_.addTime(delay)).toMap).updatedActor(actor.id)(_.dropNextEvent())
             log.debug(s"Event from actor, delay=$delay, next timestamp=$nextTimestamp")
             (nextTimestamp, nextAction, nextUniverse)
         })

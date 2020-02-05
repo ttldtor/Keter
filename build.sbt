@@ -6,12 +6,13 @@ name := "Keter"
 
 version := "0.0.1"
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.13.1"
 
 libraryDependencies ++= Seq(
-  "com.lihaoyi" %%% "utest" % "0.3.1",
-  "org.scala-js" %%% "scalajs-dom" % "0.8.0",
-  "org.webjars" % "rot.js" % "0.5.0"
+  "com.lihaoyi" %%% "utest" % "0.7.2",
+  "org.scala-js" %%% "scalajs-dom" % "0.9.8",
+  "org.webjars" % "rot.js" % "0.5.0",
+  "org.scala-lang.modules" %%% "scala-collection-contrib" % "0.2.1"
 )
 
 npmDependencies in Compile += "rot-js" -> "0.6.2"
@@ -33,8 +34,8 @@ site := {
   import java.nio.file.{Files, StandardCopyOption}
   (webpack in fullOptJS in Compile).value
   val targetDirectory = target.value / sitePath.value
-  val sourceJS = target.value / "scala-2.11" / "scalajs-bundler" / "main" / "keter-opt-bundle.js"
-  val sourceMap = target.value / "scala-2.11" / "scalajs-bundler" / "main" / "keter-opt-bundle.js.map"
+  val sourceJS = target.value / "scala-2.13" / "scalajs-bundler" / "main" / "keter-opt-bundle.js"
+  val sourceMap = target.value / "scala-2.13" / "scalajs-bundler" / "main" / "keter-opt-bundle.js.map"
   val targetJS = targetDirectory / "keter.js"
   val targetMap = targetDirectory / sourceMap.name
   targetJS.mkdirs()

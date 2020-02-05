@@ -6,7 +6,7 @@ import scala.collection.SortedMap
 sealed class EventQueue(val timestamp: Double, events: SortedMap[Double, Seq[ScheduledEvent]]) {
 
   def addEvent(at: Double, event: ScheduledEvent): EventQueue = {
-    new EventQueue(timestamp, events + (at -> (events.getOrElse(at, IndexedSeq()) :+ event)))
+    new EventQueue(timestamp, events ++ Map(at -> (events.getOrElse(at, IndexedSeq()) :+ event)))
   }
 
   def nextEventTime: Option[Double] = events.headOption map (_._1)
@@ -19,7 +19,7 @@ sealed class EventQueue(val timestamp: Double, events: SortedMap[Double, Seq[Sch
     require(events.nonEmpty, "Event queue is empty!")
     events.head match {
       case (at, Seq(action)) => new EventQueue(timestamp, events.tail)
-      case (at, actions) => new EventQueue(timestamp, events.tail + (at -> actions.tail))
+      case (at, actions) => new EventQueue(timestamp, events.tail ++ Map(at -> actions.tail))
     }
   }
 
@@ -29,5 +29,7 @@ sealed class EventQueue(val timestamp: Double, events: SortedMap[Double, Seq[Sch
 }
 
 object EventQueue {
+  import Ordering.Double.IeeeOrdering
+
   val empty = new EventQueue(0, SortedMap())
 }

@@ -2,7 +2,7 @@ sudo: false
 language: scala
 jdk: openjdk11
 scala:
-  - 2.11.6
+  - 2.13.1
 script: sbt test site
 notifications:
   email:

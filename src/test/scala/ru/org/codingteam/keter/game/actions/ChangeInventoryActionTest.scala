@@ -10,8 +10,8 @@ object ChangeInventoryActionTest extends TestSuite {
   val universe = Location.createLocation()
   val action = InventoryChangeAction(Inventory(Set(Head("h", 10)), Set(Knife("k")), Set()))
 
-  val tests = TestSuite {
-    'shouldChangeInventory {
+  val tests = Tests {
+    test("shouldChangeInventory") {
       val newState = action.perform(universe.playerId.get, universe)
       val player = newState.player.get
 

@@ -14,5 +14,5 @@ case class Inventory(body: Set[Bodypart], equipment: Set[EquipmentItem], backpac
   /**
    * @return list of all inventory items either equipped or not.
    */
-  def allEquipment = equipment ++ backpack
+  def allEquipment: Set[EquipmentItem] = equipment ++ backpack
 }

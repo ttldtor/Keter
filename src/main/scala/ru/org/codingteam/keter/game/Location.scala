@@ -95,7 +95,7 @@ object Location extends Logging {
         submap = submap1,
         coords = skel1.coordsOf('@').coords,
         subspaceMatrix = SubspaceMatrix.identity),
-      items = Set(Knife("Knife"))
+      items = Set(Knife("Knife"), Knife("Knife"), Knife("Knife"))
     )
 
     val scp = human(

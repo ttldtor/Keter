@@ -11,8 +11,7 @@ abstract class Weapon extends EquipmentItem {
   def damage: Int
 }
 
-case class Knife(name: String,
-                 damage: Int = 50) extends Weapon {
+class Knife(private val _name: String, private val _damage: Int) extends Weapon {
 
   val cooldown = 200
   val missCooldown = 100
@@ -37,4 +36,14 @@ case class Knife(name: String,
 
   override val requires: Set[Capability] = Set(ManipulatorCapability)
 
+  override def damage: Int = _damage
+
+  /**
+   * Name of equipment item.
+   */
+  override def name: String = _name
+}
+
+object Knife {
+  def apply(name: String, damage: Int = 50) = new Knife(name, damage)
 }
